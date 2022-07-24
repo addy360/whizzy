@@ -10,13 +10,14 @@ import java.util.List;
 public class Whizzy {
 
     public void getData() {
-        Tenders tenders = new Tenders();
-        List<WhizzyItem> tendersPageItems = tenders.getPageItems();
-        tendersPageItems.forEach(tenders::getDetails);
-
-        Jobs jobs = new Jobs();
-        List<WhizzyItem> jobsPageItems = jobs.getPageItems();
-        jobsPageItems.forEach(jobs::getDetails);
+//        Tenders tenders = new Tenders();
+//        List<WhizzyItem> tendersPageItems = tenders.getPageItems();
+//        tendersPageItems.forEach(tenders::getDetails);
+//
+//        Jobs jobs = new Jobs();
+//        List<WhizzyItem> jobsPageItems = jobs.getPageItems();
+//        jobsPageItems.forEach(jobs::getDetails);
     }
+
 
 }

@@ -10,6 +10,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -23,7 +24,6 @@ public abstract class WhizzyPage {
 
         log.info("Request to : {}", url);
         try {
-
             return Jsoup.connect(url).get();
         } catch (Exception e) {
             log.info("Error while fetching page : {}", e.getMessage());
@@ -31,7 +31,7 @@ public abstract class WhizzyPage {
         }
     }
 
-    List<WhizzyItem> getPageItems() {
+    public List<WhizzyItem> getPageItems() {
         String url = baseUrl + getEndpoint().getEndpoint();
         Elements elements = getPage(url).getElementsByClass("container-item");
         return elements.stream().map(this::extractItem).collect(Collectors.toList());
@@ -73,7 +73,11 @@ public abstract class WhizzyPage {
         itemDetails.setTitle(title);
         itemDetails.setReference(reference);
         itemDetails.setSummary(summary);
-        itemDetails.setAttachments(attachements.stream().map(link -> link.attr("href")).collect(Collectors.toList()));
+        itemDetails.setAttachments(attachements
+                .stream()
+                .map(link -> link.attr("href"))
+                .filter(s -> s.toLowerCase(Locale.ROOT).startsWith("http"))
+                .collect(Collectors.toList()));
         return itemDetails;
     }
 
@@ -89,7 +93,7 @@ public abstract class WhizzyPage {
 
     abstract String getTitleClass();
 
-    public String getValue(Element element) {
+    private String getValue(Element element) {
         try {
             return element.text();
         } catch (Exception e) {
