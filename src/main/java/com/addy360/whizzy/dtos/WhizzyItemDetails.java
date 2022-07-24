@@ -13,4 +13,5 @@ public class WhizzyItemDetails {
     String deadline;
     String summary;
     List<String> attachments;
+    String type;
 }

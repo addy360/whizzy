@@ -44,6 +44,7 @@ public abstract class WhizzyPage {
         item.setImage(image);
         item.setLink(baseUrl + link);
         item.setText(title);
+        item.setType(getEndpoint());
         return item;
     }
 
@@ -71,6 +72,7 @@ public abstract class WhizzyPage {
         itemDetails.setTitle(title);
         itemDetails.setReference(reference);
         itemDetails.setSummary(summary);
+        itemDetails.setType(getEndpoint().getEndpoint().replace("/",""));
         itemDetails.setAttachments(attachements
                 .stream()
                 .map(link -> link.attr("href"))
