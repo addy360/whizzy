@@ -36,21 +36,26 @@ public abstract class WhizzyOutput {
                                 ? service.submit(() -> jobs.getDetails(whizzyItem))
                                 : service.submit(() -> tenders.getDetails(whizzyItem)))
                         .collect(Collectors.toList()))).forEach(listFuture -> service.submit(() -> {
-                    try {
-                        listFuture.get()
-                                .parallelStream()
-                                .forEach(whizzyItemDetailsFuture -> {
-                                    service.submit(() -> {
-                                        try {
-                                            processData(whizzyItemDetailsFuture.get());
-                                        } catch (InterruptedException | ExecutionException e) {
-                                            e.printStackTrace();
-                                        }
+
+                    service.submit(() -> {
+                        try {
+                            listFuture.get()
+                                    .parallelStream()
+                                    .forEach(whizzyItemDetailsFuture -> {
+                                        service.submit(() -> {
+                                            try {
+                                                processData(whizzyItemDetailsFuture.get());
+                                            } catch (InterruptedException | ExecutionException e) {
+                                                e.printStackTrace();
+                                            }
+                                        });
                                     });
-                                });
-                    } catch (InterruptedException | ExecutionException e) {
-                        log.info("Error while fetching data : {}", e.getMessage());
-                    }
+                        } catch (InterruptedException | ExecutionException e) {
+                            log.info("Error while fetching data : {}", e.getMessage());
+                        }
+                    });
+
+
                 }));
 
     }
