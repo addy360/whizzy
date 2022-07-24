@@ -17,31 +17,31 @@ public class Jobs extends WhizzyPage {
 
     @Override
     String getSummaryClass() {
-        return ".field field-name-body field-type-text-with-summary field-label-hidden";
+        return "field field-name-body field-type-text-with-summary field-label-hidden";
     }
 
     @Override
     String getDeadlineClass() {
-        return ".field field-name-field-expiry-date field-type-datetime field-label-above";
+        return "field field-name-field-expiry-date field-type-datetime field-label-above";
     }
 
     @Override
     String getAddressClass() {
-        return ".field field-name-field-city field-type-text field-label-above";
+        return "field field-name-field-city field-type-text field-label-above";
     }
 
     @Override
     String getReferenceClass() {
-        return ".field field-name-field-job-category field-type-taxonomy-term-reference field-label-above";
+        return "field field-name-field-job-category field-type-taxonomy-term-reference field-label-above";
     }
 
     @Override
     String getCompanyClass() {
-        return ".field field-name-field-company-name field-type-text field-label-above";
+        return "field field-name-field-company-name field-type-text field-label-above";
     }
 
     @Override
     String getTitleClass() {
-        return ".field field-name-title field-type-ds field-label-hidden";
+        return "field field-name-title field-type-ds field-label-hidden";
     }
 }

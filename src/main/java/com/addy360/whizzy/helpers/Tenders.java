@@ -19,31 +19,31 @@ public class Tenders extends WhizzyPage {
 
     @Override
     String getSummaryClass() {
-        return ".field-type-text-with-summary";
+        return "field-type-text-with-summary";
     }
 
     @Override
     String getDeadlineClass() {
-        return ".field-name-field-expiry-date";
+        return "field-name-field-expiry-date";
     }
 
     @Override
     String getAddressClass() {
-        return ".field-name-field-city";
+        return "field-name-field-city";
     }
 
     @Override
     String getReferenceClass() {
-        return ".field-name-field-tender-reference";
+        return "field-name-field-tender-reference";
     }
 
     @Override
     String getCompanyClass() {
-        return ".field-name-field-company-name";
+        return "field-name-field-company-name";
     }
 
     @Override
     String getTitleClass() {
-        return ".tender_title";
+        return "tender_title";
     }
 }

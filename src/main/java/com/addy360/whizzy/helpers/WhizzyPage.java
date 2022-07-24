@@ -1,6 +1,7 @@
 package com.addy360.whizzy.helpers;
 
 import com.addy360.whizzy.dtos.WhizzyItem;
+import com.addy360.whizzy.dtos.WhizzyItemDetails;
 import com.addy360.whizzy.enums.WhizzyLinks;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
@@ -47,32 +48,33 @@ public abstract class WhizzyPage {
         return item;
     }
 
-    public void getDetails(WhizzyItem whizzyItem) {
+    public WhizzyItemDetails getDetails(WhizzyItem whizzyItem) {
         log.info("Getting details for {}", whizzyItem);
         Document page = getPage(whizzyItem.getLink());
         Elements elementsByClass = page.getElementsByClass(getDetailClass());
-        extractDetails(elementsByClass.first());
+        return extractDetails(elementsByClass.first());
     }
 
     abstract String getDetailClass();
 
-    public void extractDetails(Element element) {
-        log.info("element : {}", element);
-        String title = getValue(element.selectFirst(getTitleClass()));
-        String company = getValue(element.selectFirst(getCompanyClass()));
-        String reference = getValue(element.selectFirst(getReferenceClass()));
-        String city = getValue(element.selectFirst(getAddressClass()));
-        String expDate = getValue(element.selectFirst(getDeadlineClass()));
-        String summary = getValue(element.selectFirst(getSummaryClass()));
+    private WhizzyItemDetails extractDetails(Element element) {
+        String title = getValue(element.getElementsByClass(getTitleClass()).first());
+        String company = getValue(element.getElementsByClass(getCompanyClass()).first());
+        String reference = getValue(element.getElementsByClass(getReferenceClass()).first());
+        String address = getValue(element.getElementsByClass(getAddressClass()).first());
+        String expDate = getValue(element.getElementsByClass(getDeadlineClass()).first());
+        String summary = getValue(element.getElementsByClass(getSummaryClass()).first());
         Elements attachements = element.select("a");
-        log.info("title : {}", title);
-        log.info("company : {}", company);
-        log.info("reference : {}", reference);
-        log.info("city : {}", city);
-        log.info("expDate : {}", expDate);
-        log.info("summary : {}", summary);
-        log.info("attachements : {}", attachements.stream().map(link -> link.attr("href")).collect(Collectors.toList()));
 
+        WhizzyItemDetails itemDetails = new WhizzyItemDetails();
+        itemDetails.setAddress(address);
+        itemDetails.setCompany(company);
+        itemDetails.setDeadline(expDate);
+        itemDetails.setTitle(title);
+        itemDetails.setReference(reference);
+        itemDetails.setSummary(summary);
+        itemDetails.setAttachments(attachements.stream().map(link -> link.attr("href")).collect(Collectors.toList()));
+        return itemDetails;
     }
 
     abstract String getSummaryClass();

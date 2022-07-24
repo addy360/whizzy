@@ -14,11 +14,9 @@ public class Whizzy {
         List<WhizzyItem> tendersPageItems = tenders.getPageItems();
         tendersPageItems.forEach(tenders::getDetails);
 
-//        Jobs jobs = new Jobs();
-//        List<WhizzyItem> jobsPageItems = jobs.getPageItems();
-//        jobsPageItems.forEach(jobs::getDetails);
-
-//        jobs.getDetails(jobsPageItems.get(0));
+        Jobs jobs = new Jobs();
+        List<WhizzyItem> jobsPageItems = jobs.getPageItems();
+        jobsPageItems.forEach(jobs::getDetails);
     }
 
 }
