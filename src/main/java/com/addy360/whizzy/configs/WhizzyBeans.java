@@ -1,5 +1,6 @@
 package com.addy360.whizzy.configs;
 
+import com.addy360.whizzy.helpers.WhizzyPrints;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,4 +14,10 @@ public class WhizzyBeans {
     ExecutorService executorService() {
         return Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
     }
+
+    @Bean
+    WhizzyPrints whizzyPrints() {
+        return new WhizzyPrints(executorService());
+    }
+
 }
