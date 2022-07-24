@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -38,26 +39,34 @@ public abstract class WhizzyOutput {
                         .collect(Collectors.toList()))).forEach(listFuture -> service.submit(() -> {
 
                     service.submit(() -> {
-                        try {
-                            listFuture.get()
-                                    .parallelStream()
-                                    .forEach(whizzyItemDetailsFuture -> {
-                                        service.submit(() -> {
-                                            try {
-                                                processData(whizzyItemDetailsFuture.get());
-                                            } catch (InterruptedException | ExecutionException e) {
-                                                e.printStackTrace();
-                                            }
-                                        });
-                                    });
-                        } catch (InterruptedException | ExecutionException e) {
-                            log.info("Error while fetching data : {}", e.getMessage());
-                        }
+                        prepareItemDetailPages(listFuture);
                     });
 
 
                 }));
 
+    }
+
+    private void prepareItemDetailPages(Future<List<Future<WhizzyItemDetails>>> listFuture) {
+        try {
+            listFuture.get()
+                    .parallelStream()
+                    .forEach(whizzyItemDetailsFuture -> {
+                        service.submit(() -> {
+                            extractedData(whizzyItemDetailsFuture);
+                        });
+                    });
+        } catch (InterruptedException | ExecutionException e) {
+            log.info("Error while fetching data : {}", e.getMessage());
+        }
+    }
+
+    private void extractedData(Future<WhizzyItemDetails> whizzyItemDetailsFuture) {
+        try {
+            processData(whizzyItemDetailsFuture.get());
+        } catch (InterruptedException | ExecutionException e) {
+            log.info("Error while fetching data : {}", e.getMessage());
+        }
     }
 
     abstract void processData(WhizzyItemDetails whizzyItemDetails);
