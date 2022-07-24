@@ -21,8 +21,7 @@ public abstract class WhizzyPage {
     abstract WhizzyLinks getEndpoint();
 
     private Document getPage(String url) {
-
-        log.info("Request to : {}", url);
+        log.info("Sending request to : {}", url);
         try {
             return Jsoup.connect(url).get();
         } catch (Exception e) {
@@ -49,7 +48,6 @@ public abstract class WhizzyPage {
     }
 
     public WhizzyItemDetails getDetails(WhizzyItem whizzyItem) {
-        log.info("Getting details for {}", whizzyItem);
         Document page = getPage(whizzyItem.getLink());
         Elements elementsByClass = page.getElementsByClass(getDetailClass());
         return extractDetails(elementsByClass.first());

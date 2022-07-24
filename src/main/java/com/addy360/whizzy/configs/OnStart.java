@@ -18,7 +18,7 @@ public class OnStart {
     @Bean
     CommandLineRunner commandLineRunner() {
         return args -> {
-            whizzyPrints.fetchAndPrint();
+            whizzyPrints.init();
         };
     }
 }
