@@ -36,7 +36,8 @@ public abstract class WhizzyOutput {
                         .map(whizzyItem -> whizzyPage instanceof Jobs
                                 ? service.submit(() -> jobs.getDetails(whizzyItem))
                                 : service.submit(() -> tenders.getDetails(whizzyItem)))
-                        .collect(Collectors.toList()))).forEach(listFuture -> service.submit(() -> {
+                        .collect(Collectors.toList())))
+                .forEach(listFuture -> service.submit(() -> {
 
                     service.submit(() -> {
                         prepareItemDetailPages(listFuture);
